@@ -29,7 +29,7 @@ app.use(session({
     secret: process.env.SECRET_SESSION,
     resave: false,
     saveUninitialized: false,
-    cookie: { 
+    cookie: {
         secure: false,
         maxAge: 60 * 60 * 1000
     }
@@ -37,8 +37,6 @@ app.use(session({
 createDB()
 
 app.use(route)
-
-
 
 app.listen(port, () => {
     console.log(`Le serveur est ouvert sur le port ${port}`)

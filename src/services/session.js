@@ -3,5 +3,6 @@ export function isAuthentification(req, res, next){
     res.locals.message = null
     res.locals.userImg = null
     res.locals.post = null
+    res.locals.userInfo = null
     next()
 }
