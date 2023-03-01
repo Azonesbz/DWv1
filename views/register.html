@@ -1,0 +1,57 @@
+<%- include('components/header.html', {title: "Créer un compte"}) %>
+  <div class="w-full sm:w-2/3 lg:w-2/4 mx-auto my-auto mt-5 items-center">
+    <div class="flex flex-col">
+      <div class="md:col-span-1">
+        <div class="px-4 sm:px-0">
+          <h2 class="font-bold leading-6 text-green-600 text-center text-xl dark:text-white uppercase">Créer un compte
+          </h2>
+          <p class="mt-1 text-lg text-black text-center mb-4 dark:text-white">Veuillez renseigner tout les champs avant
+            de soumettre le formulaire</p>
+        </div>
+      </div>
+      <div class="mt-5 md:col-span-2 md:mt-0 shadow-lg shadow-black rounded-lg">
+        <form action="" method="POST">
+          <div class="overflow-hidden rounded-lg">
+            <div class="flex bg-neutral-200 dark:bg-neutral-900 px-4 py-5 sm:p-6 justify-center">
+              <div class="flex inline-flex flex-col w-2/3 ">
+
+                <div class="col-span-12 sm:col-span-3 ">
+                  <label for="username" class="block text-lg font-bold text-black dark:text-white duration-1000">Nom
+                    d'utilisateur:</label>
+                  <input type="text" name="username" id="first-name" placeholder="Pseudonyme"
+                    class="mt-1 block w-full rounded-xl bg-neutral-100 py-2 px-3 placeholder:text-slate-600 text-black border-2 border-neutral-700 focus:border-black focus:outline-none sm:text-sm">
+                </div>
+
+                <div class="col-span-12 sm:col-span-3 mt-2">
+                  <label for="email" class="block text-lg font-bold text-black dark:text-white duration-1000">Email:</label>
+                  <input type="email" name="email" id="email" placeholder="Email"
+                    class="mt-1 block w-full rounded-xl bg-neutral-100 py-2 px-3 placeholder:text-slate-600 text-black border-2 border-neutral-700 focus:border-black focus:outline-none sm:text-sm">
+                </div>
+                <div class="col-span-6 sm:col-span-3 mt-2">
+                  <label for="password" class="block text-lg font-bold text-black dark:text-white duration-1000">Password:</label>
+                  <input type="password" name="password" id="password" placeholder="Mot de passe"
+                    class="mt-1 block w-full rounded-xl bg-neutral-100 py-2 px-3 placeholder:text-slate-600 text-black border-2 border-neutral-700 focus:border-black focus:outline-none sm:text-sm">
+                </div>
+
+              </div>
+            </div>
+            <div class="bg-neutral-400 dark:bg-neutral-700 px-6 py-3 text-center sm:px-8">
+              <button type="submit"
+                class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-6 text-sm font-bold text-white shadow-sm hover:bg-indigo-900 uppercase shadow-lg shadow-indigo-500/60">
+                Créer mon compte
+              </button>
+              <p class="relative top-1 text-lg ">Déjà un compte ? <a href="/login" class="text-indigo-800 font-bold underline underline-offset-4">Connectez vous</a></p>
+            </div>
+          </div>
+        </form>
+        <% if(message){ %>
+          <div>
+            <p>
+              <%= message %>
+            </p>
+          </div>
+          <% } %>
+      </div>
+    </div>
+  </div>
+  <%- include('components/footer.html') %>

@@ -1,0 +1,51 @@
+<%- include('components/header.html', {title: "Mon profil"}) %>
+<section class="flex flex-col absolute items-center justify-center inset-0 w-full h-full mx-auto">
+    <h1 class="text-center dark:text-white text-4xl">Mon profil</h1>
+    <div class="flex flex-col m-5" id="profil">
+            <img src=<%=userImg %> alt="image de profil" height="50" width="50" class="rounded-full m-auto mt-5 w-24 h-24">
+            <div id="contact" class="dark:text-white text-xl space-y-2">
+                <h1 class="text-center font-bold text-2xl">
+                    <%= userInfo.pseudo %>
+                </h1>
+                <p>Numéro de téléphone</p>
+                <p>Adresse email: <%= userInfo.email %>
+                </p>
+            </div>
+            <button class="m-5 bg-sky-900 px-5 py-3 rounded-md text-white" id="change-profil">Modifier mon
+                profil</button>
+        </div>
+        <form action="/upload" enctype="multipart/form-data" method="post" class="hidden relative my-auto flex top-48 items-center sm:m-auto w-full sm:w-3/4 bg-neutral-200 dark:bg-neutral-900 p-5 mt-5 sm:rounded-lg" id="profil-edit">
+            <div class="flex flex-col dark:text-white w-full">
+                <div class="flex flex-col bg-neutral-300 dark:bg-neutral-900 dark:text-white w-full mt-5 rounded-lg p-5">
+                    <h1 class="text-2xl mb-5">Image de profil</h1>
+                    <div class="flex my-auto w-full h-24">
+                        <input type="file" name="photo" class="w-5/6 text-sm text-slate-500 file:m-auto file:flex file:flex-col file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 bg-white rounded-lg p-5 border-2 hover:border-4 hover:border-solid border-dashed border-black"/>
+                        <img src=<%= userImg %> alt="img de profil" height="50" width="50" class="h-24 w-24 rounded-full ml-5">
+                    </div>
+                </div>
+                <div class="flex flex-col bg-neutral-300 dark:bg-neutral-900 dark:text-white w-full mt-5 rounded-lg p-5">
+                    <h1 class="text-2xl mb-2 sm:mb-5">Mon Email</h1>
+                    <div class="flex items-center my-auto w-full h-24">
+                        <p class="text-sm sm:text-lg lg:text-xl font-semibold"><%= userInfo.email %></p>
+                        <button id="email-btn" class="bg-indigo-900 px-3 py-2 rounded-lg ml-auto justify-items-end sm:ml-auto hover:scale-95">Modifier</button>
+                    </div>
+                </div>
+                <div class="flex flex-col bg-neutral-300 dark:bg-neutral-900 dark:text-white w-full mt-5 rounded-lg p-5">
+                    <h1 class="text-2xl mb-2 sm:mb-5 dark:text-white">Mon Email</h1>
+                    <div class="flex items-center my-auto w-full h-24">
+                        <p class="text-sm sm:text-lg lg:text-xl font-semibold"><%= userInfo.prenom && userInfo.nom %></p>
+                        <button id="identity-btn" class="bg-indigo-900 px-3 py-2 rounded-lg ml-auto justify-items-end sm:ml-auto hover:scale-95">Modifier</button>
+                    </div>
+                </div>
+                <div class="flex flex-col bg-neutral-300 dark:bg-neutral-900 dark:text-white w-full mt-5 rounded-lg p-5">
+                    <h1 class="text-2xl mb-2 sm:mb-5">Mon Email</h1>
+                    <div class="flex items-center my-auto w-full h-24">
+                        <p class="text-sm sm:text-lg lg:text-xl font-semibold"><%= userInfo.phone %></p>
+                        <button id="phone-btn" class="bg-indigo-900 px-3 py-2 rounded-lg ml-auto justify-items-end sm:ml-auto hover:scale-95">Modifier</button>
+                    </div>
+                </div>
+                <button type="submit" form="change-profil" class="py-2 px-5 rounded-lg bg-cyan-900 mt-5">Enregistrer les paramètres</button>
+            </div>
+        </form>
+    </section>
+    <%- include('components/footer.html') %>

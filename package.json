@@ -1,0 +1,31 @@
+{
+  "name": "dwv1",
+  "version": "1.0.0",
+  "description": "Version bêta du projet DW",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "tailwind": "npx tailwindcss build index.css -o public/css/index.css",
+    "autoprefixer": "postcss puclic/css/index.css -u autoprefixer --no-map -o public/css/index.min.css",
+    "build": "npm run tailwind && npm run autoprefixer",
+    "production": "npm run tailwind && npm run autoprefixer && npm run minify"
+  },
+  "author": "Azones.dev",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.30.3",
+    "body-parser": "^1.20.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.1.2",
+    "request": "^2.88.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
+  }
+}

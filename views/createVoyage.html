@@ -1,0 +1,77 @@
+<%- include('components/header.html', {title: 'Créer un voyage'}) %>
+    <section class="w-2/3 mx-auto my-auto mt-5">
+        <div class="flex flex-col">
+            <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                    <h3 class="font-medium leading-6 text-black text-center font-bold text-xl dark:text-white">Organiser un voyage</h3>
+                    <p class="mt-1 text-lg text-black text-center mb-4 dark:text-white">Veuillez suivre les indications pour commencer à organiser votre premier voyage, si vous, avez besoin d'aide, n'hésitez pas à contacter l'espace client en cliquant <span class="text-indigo-800"><a href="/espace-client">ici</a></span></p>
+                </div>
+            </div>
+            <div class="mt-5 md:col-span-2 md:mt-0 shadow-lg shadow-black rounded-lg">
+                <form action="" method="POST">
+                    <div class="overflow-hidden rounded-lg">
+                        <div class="flex bg-neutral-200 dark:bg-neutral-900 px-4 py-5 sm:p-6 justify-center">
+                            <div class="flex inline-flex flex-col w-2/3 ">
+                                <div class="col-span-12 sm:col-span-3 ">
+                                    <label for="pays_location"
+                                        class="block text-lg font-bold text-black dark:text-white duration-1000">
+                                        Choisir un pays:
+                                    </label>
+                                    <select name="pays_location" id="voyage-location" class="mt-1 block w-full rounded-xl bg-neutral-100 py-2 px-3 text-black border-2 border-neutral-700 focus:border-black focus:outline-none sm:text-sm">
+                                        <option value="France">France</option>
+                                        <option value="Espagne">Espagne</option>
+                                        <option value="Allemagne">Allemagne</option>
+                                        <option value="Italie">Italie</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-12 sm:col-span-3 ">
+                                    <label for="pays_location"
+                                        class="block text-lg font-bold text-black dark:text-white duration-1000">
+                                        Ajouter une ville:
+                                    </label>
+                                    <select name="city_location" id="voyage-location" class="mt-1 block w-full rounded-xl bg-neutral-100 py-2 px-3 text-black border-2 border-neutral-700 focus:border-black focus:outline-none sm:text-sm">
+                                    </select>
+                                </div>
+                                <div class="col-span-12 sm:col-span-3 ">
+                                    <label for="budget" class="block text-lg font-bold text-black dark:text-white duration-1000">
+                                        Mon budget:
+                                    </label>
+                                    <input type="number" name="budget" id="voyage-budget" placeholder="Budget" class="mt-1 block w-full rounded-xl bg-neutral-100 py-2 px-3 text-black border-2 border-neutral-700 focus:border-black focus:outline-none sm:text-sm">
+                                </div>
+
+                                <div class="col-span-12 sm:col-span-3 ">
+                                    <label for="description" class="block text-lg font-bold text-black dark:text-white duration-1000">
+                                        Note pour mon voyage
+                                    </label>
+                                    <input type="text" name="description" id="voyage-description" placeholder="Description..." class="mt-1 block w-full rounded-xl bg-neutral-100 py-2 px-3 text-black border-2 border-neutral-700 focus:border-black focus:outline-none sm:text-sm">
+                                </div>
+
+                                <div class="col-span-12 sm:col-span-3 ">
+                                    <label for="duration"
+                                        class="block text-lg font-bold text-black dark:text-white duration-1000">
+                                        Durée du voyage(en jours):
+                                    </label>
+                                    <input type="number" name="duration" id="voyage-duration" placeholder="Définir la durée du voyage"
+                                        class="mt-1 block w-full rounded-xl bg-neutral-100 py-2 px-3 text-black border-2 border-neutral-700 focus:border-black focus:outline-none sm:text-sm">
+                                </div>
+                                <div class="col-span-6 sm:col-span-3 mt-2">
+                                    <label for="date"
+                                        class="block text-lg font-bold text-black dark:text-white duration-1000">Date de départ:</label>
+                                    <input type="date" name="date" id="date-departure" placeholder="Date du départ..."
+                                        class="mt-1 block w-full rounded-xl bg-neutral-100 py-2 px-3 text-black border-2 border-neutral-700 focus:border-black focus:outline-none sm:text-sm">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="bg-neutral-400 dark:bg-neutral-700 px-6 py-3 text-center sm:px-8">
+                            <button type="submit"
+                                class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-6 text-sm font-bold text-white shadow-sm hover:bg-indigo-900 uppercase shadow-lg shadow-indigo-500/60">
+                                Créer mon compte
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <%- include('components/footer.html') %>
