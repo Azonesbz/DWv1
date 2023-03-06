@@ -1,6 +1,7 @@
 import express from 'express'
 import ejs from 'ejs'
 import path from 'path'
+import cors from 'cors'
 
 import bodyParser from 'body-parser'
 import session from 'express-session'
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(express.static('uploads'))
+app.use(cors())
 app.use(isAuthentification)
 app.use(session({
     secret: process.env.SECRET_SESSION,

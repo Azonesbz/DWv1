@@ -8,6 +8,7 @@
     "dev": "env-cmd -f ./env/.env.dev nodemon server.js",
     "prod": "env-cmd -f ./env/.env.prod nodemon server.js",
     "tailwind": "npx tailwindcss build index.css -o public/css/index.css",
+    "client": "cd client && npm start",
     "autoprefixer": "postcss puclic/css/index.css -u autoprefixer --no-map -o public/css/index.min.css",
     "build": "npm run tailwind && npm run autoprefixer",
     "production": "npm run tailwind && npm run autoprefixer && npm run minify"
@@ -17,6 +18,7 @@
   "dependencies": {
     "argon2": "^0.30.3",
     "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "express-session": "^1.17.3",

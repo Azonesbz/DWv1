@@ -4,7 +4,7 @@ import { createPoolConnection } from "../db/database.js";
 export async function createUserDb(username, email, password) {
     const [users] = await createPoolConnection().query(`SELECT * FROM users WHERE pseudo = ?`, [username])
     if(users.length > 0) {
-        return null
+        throw new Error('Cet identifiant existe déjà, veuillez réessayer.')
     }
     const [info] = await createPoolConnection().query(`INSERT INTO users (pseudo, email, password) VALUES (?, ?, ?)`, [username, email, password])
 

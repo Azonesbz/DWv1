@@ -1,5 +1,5 @@
 import express from 'express'
-import { loginPage, connectUser, registerPage, createUser, logoutPage, profilPage } from '../controllers/userCtlr.js'
+import { connectUser, createUser, logoutPage, profilPage } from '../controllers/userCtlr.js'
 import { createVoyage, voyagePage } from '../controllers/voyageCtrl.js'
 import { home } from '../controllers/home.js'
 import { uploadFile, storage } from '../controllers/uploadCtrl.js'
@@ -13,11 +13,9 @@ const router = express.Router()
 
 router.get('/', home)
 
-router.get('/login', loginPage)
 router.post('/login', connectUser)
 
-router.get('/register', registerPage)
-router.post('/register', createUser)
+router.post('/create-account', createUser)
 
 router.get('/logout', logoutPage)
 

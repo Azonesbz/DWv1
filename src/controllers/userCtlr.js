@@ -7,82 +7,48 @@ import argon2 from 'argon2'
 import fs from 'node:fs'
 import { v4 as uuidv4 } from 'uuid';
 
-let message;
-
-export async function registerPage(req, res) {
-    const user = req.session.sessId
-    res.locals.user = user
-    res.render('register.html');
-};
-
 export async function createUser(req, res) {
-    const user = req.session.sessId
-    const { username, password, email } = req.body
-    if (username && password && email) {
-        if(password.length < 5){
-            const message = 'Le mot de passe doit contenir 5 caractères au minimum'
-            res.render('register', {message})
-        }
-        const hash = await argon2.hash(password);
-        await createUserDb(username, email, hash)
-        .then(user => {
-            if(user === null){
-                message = 'Cet utilisateur existe déjà, veuillez en choisir un autre'
-                res.status(500).render('register.html', {message})
-            }
+    const { identify, password, email } = req.body
+    if (identify && password && email) {
+        const hash = await argon2.hash(password)
+        createUserDb(identify, email, hash).then(_ => {
             req.session.sessId = uuidv4()
-            res.status(200).redirect('/')
+            console.log(req.session.sessId)
+            const message = `Bienvenue ${identify} ! Redirection vers la page d'acceuil...`
+            res.send({msg: message})
         })
         .catch(err => {
-            message = 'Une erreur est survenue, veuillez réessayer plus tard.'
             console.error(err)
-            res.status(404).render('register.html', {message})
+            res.send({err: `L\'identifiant existe déjà, veuillez réessayer avec un autre identifiant.`})
         })
-    } else {
-        const message = `Veuillez remplir tout les champs avant de soumettre le formulaire`
-        res.status(400).render('register.html', {message})
     }
-   
 };
-
-// Controller de connexion à un utilisateur
-export async function loginPage(req, res) 
-{
-    const user = req.session.sessId
-    res.render('login.html');
-};
-
-// Middleware de connexion
 
 export async function connectUser(req, res) 
 {
-    const { username, password } = req.body
-    if(username && password){
-        connectUserDb(username).then(user => {
+    const { identify, password } = req.body
+    if(identify && password){
+        connectUserDb(identify).then(user => {
             if(argon2.verify(user[0].password, password)){
                 req.session.sessId = uuidv4()
-                res.status(200).redirect('/')
+                res.status(200).send({msg: 'Vous êtes connecté'})
             }
-            message = 'Le mot de passe est incorrect, veuillez réessayer.'
-            res.status(300).render('login.html', {message})
+            const message = 'Le mot de passe est incorrect, veuillez réessayer.'
+            res.status(300).send({msg: message})
         })
         .catch(err => {
-            console.error(err)
-            message = 'Le nom d\'utilisateur n\'existe pas, veuillez réessayer.'
-            res.status(300).render('login.html', {message})
+            const message = 'Le nom d\'utilisateur n\'existe pas, veuillez réessayer.'
+            res.status(300).send({msg: message})
         })
     }
-    res.locals.user = username
 };
 
 // Controller de déconnexion à un utilisateur
 
 export async function logoutPage (req, res) {
-    const user = req.session.sessId
-    res.locals.user = user
     req.session.destroy(err => {
         if(err) throw err
-        res.redirect('/')
+        res.send({msg: 'Déconnexion'})
     })
 }
 
