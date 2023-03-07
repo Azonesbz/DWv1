@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Menu from './menu'
+import logo from '../../img/index.jpg'
 
 const Header = () => {
     const [theme, setTheme] = useState(true)
@@ -27,7 +28,7 @@ const Header = () => {
         <>
             <header className="flex h-20 relative z-50">
                 <nav className="flex w-full h-5/6 m-auto items-center">
-                    <a href="." className="my-auto ml-4"><img src="./img/index.jpg" alt="logo" className="w-14 rounded-full" /></a>
+                    <a href="." className="my-auto ml-4"><img src={logo} alt="logo" className="w-14 rounded-full" /></a>
                     <div className="flex justify-end w-full h-full items-center">
                         <button id="theme-btn" onClick={toggleTheme}
                             className="flex fixed border-2 border-black lg-block hover:bg-black dark:border-white dark:hover:bg-white rounded-full w-10 h-10 mr-16 lg:mr-3 duration-200 justify-center items-center">

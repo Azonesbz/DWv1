@@ -20,17 +20,26 @@ const Register = () => {
     }
     const handleSubmit = e => {
         e.preventDefault()
-        fetch('http://localhost:4000/create-account', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            setData(JSON.stringify(data.msg || data.err))
-        })
+        if (!formData.identify[0].length > 0){
+            console.log('L\'identifiant est nécessaire pour pouvoir s\'inscrire.')
+        } else if (!formData.email[0].length > 0) {
+            console.log('L\'email est nécessaire pour pouvoir s\'inscrire.')
+        } else if (!formData.password[0].length > 0) {
+            console.log('Le mot de passe est nécessaire pour pouvoir s\'inscrire.')
+        } else {
+            fetch('http://localhost:4000/create-account', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(async response => await response.json())
+            .then(auth => {
+                console.log(auth)
+            })
+        }
+        
     }
     return (
         <>
