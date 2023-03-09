@@ -14,7 +14,7 @@ export async function createUserDb(username, email, password) {
 export async function connectUserDb(username){
     const [rows] = await createPoolConnection().query(`SELECT * FROM users WHERE pseudo = ?`, [username])
     if(rows.length === 0) {
-        return null
+        return new Error('Aucun utilisateur n\'a été trouvé')
     }
     return rows
 }

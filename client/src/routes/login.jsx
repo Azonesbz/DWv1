@@ -12,14 +12,22 @@ const formReducer = (state, event) => {
 
 const Login = () => {
   const [formData, setFormData] = useReducer(formReducer, {});
-  const [data, setData] = useState([])
+  const [data, setData] = useState('')
+
   const navigate = useNavigate()
+
+
+// Function to set value input to formData
+
   const handleChange = e => {
     setFormData({
       name: [e.target.name],
       value: [e.target.value],
     });
   }
+
+  // Function to take the response and update the view
+
   const handleSubmit = e => {
     e.preventDefault()
     fetch('http://localhost:4000/login', {
@@ -29,14 +37,16 @@ const Login = () => {
       },
       body: JSON.stringify(formData)
     })
-      .then(response => {
-        console.log(response)
-        response.json()
-      })
-      .then(data => {
-        navigate('/')
-        setData(JSON.stringify(data.msg || data.err))
-      })
+    .then(async response => {
+      if(response.status !== 200){
+        const data = await response.json()
+        return setData(data.msg)
+      } else if (response.status === 200 || 201) {}
+      console.log('yes')
+      const data = await response.json()
+      localStorage.setItem('token', `${data.auth}`)
+      navigate('/')
+    })
   }
 
   return (

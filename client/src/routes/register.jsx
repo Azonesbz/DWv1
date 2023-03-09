@@ -1,5 +1,6 @@
 import Header from "./components/header";
 import React, { useState, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 
 const formReducer = (state, event) => {
     return {
@@ -11,6 +12,8 @@ const formReducer = (state, event) => {
 const Register = () => {
     const [formData, setFormData] = useReducer(formReducer, {});
     const [data, setData] = useState([])
+
+    const navigate = useNavigate()
 
     const handleChange = e => {
         setFormData({
@@ -36,14 +39,16 @@ const Register = () => {
             })
             .then(async response => await response.json())
             .then(auth => {
-                console.log(auth)
+                localStorage.setItem('token', auth.auth)
+                setData(auth.message)
+                navigate('/')
             })
         }
         
     }
     return (
         <>
-            <Header />
+            <Header messageRedirect={data} />
             
             <div className="w-full sm:w-2/3 lg:w-2/4 mx-auto my-auto items-center">
                 <div className="flex flex-col">
