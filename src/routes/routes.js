@@ -19,7 +19,8 @@ router.post('/create-account', createUser)
 
 router.post('/create-voyage', createVoyage)
 router.get('/create-voyage', voyagePage)
-router.get('/profil', isSessionActive, profilPage)
+
+router.post('/profil', profilPage)
 
 router.post('/upload', multer({ storage: storage }).single('photo'), uploadFile);
 

@@ -18,6 +18,7 @@ export async function connectUserDb(username){
     }
     return rows
 }
+
 export async function getProfil(username){
     const [info] = await createPoolConnection().query(`SELECT * FROM users WHERE pseudo = ?`, [username])
     return info

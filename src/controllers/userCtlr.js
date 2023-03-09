@@ -1,61 +1,66 @@
 
 // Controller de création d'utilisateur
 
-import { connectUserDb, createUserDb, getProfil } from "../repository/userRepository.js";
-import { findAllVoyage } from "../repository/voyageRepository.js";
-import argon2 from 'argon2'
-import fs from 'node:fs'
+import { connectUserDb, createUserDb } from "../repository/userRepository.js";
+import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+
+// Création d'un compte
 
 export async function createUser(req, res) {
     const { identify, password, email } = req.body
-    const hash = await argon2.hash(password)
-
-    createUserDb(identify, email, hash).then(_ => {
-        jwt.sign({identify}, process.env.SECRET_JWT, {expiresIn: '2h'}, (err, token) => {
-            if(err) {
-                console.log(err)
-                res.status(300).send('Une erreur est survenue, réessayer dans quelques instants.')
-            }
-            const message = `Bienvenue ${identify} ! Redirection vers la page d'acceuil...`
-            res.status(200).send({msg: message, auth: token})
+    bcrypt.hash(JSON.stringify(password), 10, (err, hash) => {
+        if(err) {
+            throw new Error('Erreur lors de la génération de mot de passe.')
+        }
+        createUserDb(identify, email, hash)
+        .then(user => {
+            jwt.sign({identify}, process.env.SECRET_JWT, {expiresIn: '2h'}, (err, token) => {
+                if(err) {
+                    res.status(300).send('Une erreur est survenue, réessayer dans quelques instants.')
+                }
+                const message = `Bienvenue ${identify} ! Redirection vers la page d'acceuil...`
+                res.status(200).send({msg: message, auth: token, user})
+            })
+        })
+        .catch(err => {
+            const message = `L\'identifiant existe déjà, veuillez réessayer avec un autre identifiant.`
+            res.json({msg: message, err})
         })
     })
-    .catch(err => {
-        console.error(err)
-        res.send({err: `L\'identifiant existe déjà, veuillez réessayer avec un autre identifiant.`})
-    })
 };
+
+// Connection à un compte
 
 export async function connectUser(req, res)
 {
-    const { identify, password } = req.body // Use destructuration to recover the user and password
-    connectUserDb(identify)
-    .then(async user => {// Use function to verify if the user exist in database
-        const verify = await argon2.verify(user[0].password, password)
-        console.log(verify)
-        if(verify === true){ // Compare the current password with the input password
-            
-            jwt.sign({identify}, process.env.SECRET_JWT, {expiresIn: '2h'}, (err, token) => { // Create JWT token for the identifier, with expiration date, and callback
-                if(err) {
-                    console.log('erreur')
-                    return res.status(300).send('Une erreur est survenue, réessayer dans quelques instants.') // If err, return error 
-                }
-                console.log('ok')
-                return res.status(200).send({auth: token}) // else return the value of JWT token that we have just created
-            })
-        } else {
-            const message = 'Le mot de passe est incorrect, veuillez réessayer.'
-            res.status(300).send({msg: message})
-        }
+    const { identify, password } = req.body // Retake the password and identify from the request body with destructuration
+    connectUserDb(identify) // Find if the user already exist or not
+    .then(user => {
+        bcrypt.compare(JSON.stringify(password), user[0].password, (err, passwordValid) => { // Verify if the password in the database match with the password in the request
+            if(err){ // if false, then send error message with status 300
+                const message = `Le mot de passe est incorrect, veuillez réessayer.`
+                res.status(300).json({msg: message})
+            }
+            if(passwordValid){ // if password valid, give a token to ...
+                jwt.sign({identify}, process.env.SECRET_JWT, {expiresIn: '2h'}, (err, token) => {
+                    if(err) {
+                        res.status(500).send('Une erreur est survenue, réessayer dans quelques instants.')
+                    }
+                    const message = `Connexion réussi, ravi de vous revoir ${identify} !`
+                    res.status(200).json({msg: message, token, status: 200})
+                })
+            }
+        })
     })
-    .catch(err => {
-        console.error(err)
-        const message = 'Le nom d\'utilisateur n\'existe pas, veuillez réessayer.'
-        res.status(404).send({msg: message})
+    .catch(err => { // If function connectUserDb don't find a user with the same identify, return error
+        const message = `Aucun utilisateur n'existe pour ${identify}`
+        res.json({msg: message, err})
     })
 };
 
+// Gestion du profil (édition, suppression)
+
 export async function profilPage (req, res) {
-    return getProfil()
+    
 }

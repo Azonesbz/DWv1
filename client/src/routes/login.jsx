@@ -21,8 +21,8 @@ const Login = () => {
 
   const handleChange = e => {
     setFormData({
-      name: [e.target.name],
-      value: [e.target.value],
+      name: e.target.name,
+      value: e.target.value,
     });
   }
 
@@ -38,14 +38,14 @@ const Login = () => {
       body: JSON.stringify(formData)
     })
     .then(async response => {
-      if(response.status !== 200){
+      if(response.status < 300){
         const data = await response.json()
-        return setData(data.msg)
-      } else if (response.status === 200 || 201) {}
-      console.log('yes')
-      const data = await response.json()
-      localStorage.setItem('token', `${data.auth}`)
-      navigate('/')
+        localStorage.setItem('token', `${data.token}`)
+        setData(data.msg)
+        navigate('/')
+      } else if (response.status >= 300) {}
+        const data = await response.json()
+        setData(data.msg)
     })
   }
 
